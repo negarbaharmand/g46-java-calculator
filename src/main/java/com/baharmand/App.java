@@ -12,8 +12,17 @@ public class App {
         System.out.println( "Hi " + name + "! Let's calculate stuff!" );
         boolean exit = false;
         while (!exit) {
-            System.out.println("Enter the firs number:");
-            Float num1 = scanner.nextFloat();
+            System.out.println("Enter the first number:");
+            float num1;
+
+            try {
+                num1 = scanner.nextFloat();
+                scanner.nextLine();
+            } catch (Exception e) {
+                System.out.println("Invalid input! Please enter a valid number.");
+                scanner.nextLine();
+                continue; //Move to a new iteration
+            }
 
             System.out.println("Choose the operation:");
             System.out.println("1 for (+)");
@@ -23,9 +32,11 @@ public class App {
             int choose = scanner.nextInt();
 
             System.out.println("Enter the second number:");
-            Float num2 = scanner.nextFloat();
+            float num2 = scanner.nextFloat();
+            scanner.nextLine();
 
             float result =calculateResult(num1, num2, choose);
+            // Handling errors
              if (result == Float.MIN_VALUE){
                 System.out.println("Operation is not valid!");
             } else {
@@ -43,7 +54,7 @@ public class App {
 
         System.out.println("Exiting the program.");
     }
-    private static float calculateResult(float num1, float num2, int choose) {
+    public static float calculateResult(float num1, float num2, int choose) {
         float result = 0.0f;
 
         if (choose == 1) {
@@ -55,11 +66,11 @@ public class App {
         } else if (choose == 4) {
             if (num2 == 0.0f) {
                 System.out.println("Error: Division by zero");
-                return Float.MIN_VALUE;
+                return Float.MIN_VALUE; //indicate an error condition
             }
             result = num1 / num2;
         } else {
-            return Float.MIN_VALUE;
+            return Float.MIN_VALUE; //indicate an error condition
         }
 
         return result;
