@@ -11,17 +11,7 @@ public class Calculator {
         System.out.println("Hi " + name + "! Let's calculate stuff!");
         boolean exit = false;
         while (!exit) {
-            System.out.println("Enter the first number:");
-            float num1;
 
-            try {
-                num1 = scanner.nextFloat();
-                scanner.nextLine();
-            } catch (Exception e) {
-                System.out.println("Invalid input! Please enter a valid number.");
-                scanner.nextLine();
-                continue; // Move to a new iteration
-            }
 
             System.out.println("Choose the operation:");
             System.out.println("1 for (+)");
@@ -30,23 +20,21 @@ public class Calculator {
             System.out.println("4 for (/)");
             int choose = scanner.nextInt();
 
-            System.out.println("Enter the second number:");
-            float num2 = scanner.nextFloat();
-            scanner.nextLine();
+
 
             float result;
             switch (choose) {
                 case 1:
-                    result = add(num1, num2);
+                    result = performAddition(scanner);
                     break;
                 case 2:
-                    result = subtract(num1, num2);
+                    result = performSubtraction(scanner);
                     break;
                 case 3:
-                    result = multiply(num1, num2);
+                    result = performMultiplication(scanner);
                     break;
                 case 4:
-                    result = divide(num1, num2);
+                    result = performDivision(scanner);
                     break;
                 default:
                     System.out.println("Invalid operation!");
@@ -66,12 +54,63 @@ public class Calculator {
         System.out.println("Exiting the program.");
     }
 
-    public static float add(float num1, float num2) {
-        return num1 + num2;
+
+    //Declare different methods
+    public static float performAddition(Scanner scanner) {
+        System.out.println("Enter the numbers separated by spaces:");
+        String input = scanner.nextLine();
+        //Split the input string into an array of substrings
+        String[] numberStrings = input.split(" ");
+        float[] numbers = new float[numberStrings.length];
+        for (int i = 0; i < numberStrings.length; i++) {
+            numbers[i] = Float.parseFloat(numberStrings[i]);
+        }
+        return add(numbers);
+    }
+    public static float performSubtraction(Scanner scanner) {
+        System.out.println("Enter the numbers (separated by spaces):");
+        scanner.nextLine(); // Consume the newline character
+        String input = scanner.nextLine();
+        String[] numberStrings = input.split(" ");
+        float[] numbers = new float[numberStrings.length];
+        for (int i = 0; i < numberStrings.length; i++) {
+            numbers[i] = Float.parseFloat(numberStrings[i]);
+        }
+        return subtract(numbers);
     }
 
-    public static float subtract(float num1, float num2) {
-        return num1 - num2;
+    public static float performMultiplication(Scanner scanner) {
+        System.out.println("Enter the first number:");
+        float num1 = scanner.nextFloat();
+        System.out.println("Enter the second number:");
+        float num2 = scanner.nextFloat();
+        return multiply(num1, num2);
+    }
+
+    public static float performDivision(Scanner scanner) {
+        System.out.println("Enter the first number:");
+        float num1 = scanner.nextFloat();
+        System.out.println("Enter the second number:");
+        float num2 = scanner.nextFloat();
+        return divide(num1, num2);
+    }
+
+
+    //Handling multiple inputs
+    public static float add(float... numbers) {
+        float sum = 0.0f;
+        for (float num : numbers) {
+            sum += num;
+        }
+        return sum;
+    }
+
+    public static float subtract(float... numbers) {
+        float sum = 0.0f;
+        for (float num : numbers) {
+            sum -= num;
+        }
+        return sum;
     }
 
     public static float multiply(float num1, float num2) {
@@ -82,7 +121,7 @@ public class Calculator {
         if (num2 == 0.0f) {
             System.out.println("Error: Division by zero");
             return Float.MIN_VALUE; // indicate an error condition
-        }
+        }else {
         return num1 / num2;
     }
-}
+}}
